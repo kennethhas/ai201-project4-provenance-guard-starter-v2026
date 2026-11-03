@@ -187,8 +187,7 @@ def submit():
     content_id = str(uuid.uuid4())
 
     # Labels are Milestone 5. Placeholders until then.
-    guess = "unsure"
-    label = "Analysis incomplete: labels are not connected yet."
+    guess, label = scoring.score_to_label(combined_score)
     status = "classified"
 
     audit.log_decision(
