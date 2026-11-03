@@ -47,11 +47,10 @@ Signal two measures the shape of the text (stylometry.py::style_signal). It look
 The two scores become one (scoring.py::combine_signals). Higher always means "more likely AI".
 The score becomes a guess and a label (scoring.py::score_to_label): high-confidence human, unsure, or high-confidence AI.
 Everything is recorded and returned. The app writes the content id, creator id, both signal scores, the combined score, the guess, the label and the status to logs/audit.jsonl (audit.py), then returns the same result as JSON with a new content_id. The writer can use that id with POST /appeal to say the decision was wrong, which moves the item to under_review.
+
 ---
 
 ## Signals and Scoring
-
-
 
 ### Signal one — the model signal
 
@@ -62,6 +61,7 @@ Why that might differ between human and AI writing: An AI writes by repeatedly p
 What it can't see: Who actually wrote the text. Predictable is not the same as machine-written. Plain writing, a second-language writer using words they are sure of, or formal writing all look predictable. In my own testing, a formal paragraph I wrote myself scored 0.62 on this signal, leaning AI. Dense writing with rare words can go the other way and look human.
 
 ### Signal two — the style signal
+
 What it measures: The shape of the text, without understanding any of it. Two measures go into the score:
 
 Sentence length spread: the standard deviation of sentence lengths divided by the average sentence length. Low spread means sentences march in step.
@@ -79,11 +79,12 @@ Length effects. TTR drops as text gets longer, whoever wrote it.
 Short text. Under 20 words, or fewer than 2 sentences, it returns a fixed 0.5. So only the model signal decides short submissions.
 
 ### The combining rule
+
 The rule: First I take an equal-weight average of the two signals. Then I stretch that average away from the middle, so a score that both signals push in the same direction moves further toward 0 or 1. The result is clipped to stay between 0 and 1.
 
 The numbers:
 
-average  = 0.5 × model_score + 0.5 × style_score
+average = 0.5 × model_score + 0.5 × style_score
 combined = 0.5 + 1.5 × (average − 0.5), clipped to 0–1
 
 The weights are WEIGHT_MODEL_SIGNAL and WEIGHT_STYLE_SIGNAL (0.5 each) and the stretch is STRETCH_FACTOR (1.5), all in config.py.
@@ -98,97 +99,128 @@ Where it lives: scoring.py::combine_signals
 
 Calibration run (calibrate.py::main, same pipeline as /submit):
 
-Input	         Words	 Model	Style	Average	Combined (stretched)
-clearly AI	     154	0.8015	0.4915	0.6465	0.7198
-clearly human	     120	0.2568	0.2103	0.2335	0.1003
-formal human	      68	0.6164	0.4454	0.5309	0.5464
-lightly-edited AI	141	0.9290	0.6035	0.7663	0.8995
+Input Words Model Style Average Combined (stretched)
+clearly AI 154 0.8015 0.4915 0.6465 0.7198
+clearly human 120 0.2568 0.2103 0.2335 0.1003
+formal human 68 0.6164 0.4454 0.5309 0.5464
+lightly-edited AI 141 0.9290 0.6035 0.7663 0.8995
 
 ---
 
 ## Label Variants
 
-<!-- The exact text of all three labels, as a reader would see them, and the
-     score range each covers.
+The text below is copied exactly as scoring.py::score_to_label returns it. A score of exactly 0.15 counts as human and exactly 0.85 counts as AI.
 
-     Write them for someone who has never heard the word "threshold". -->
-
-| Label                 | Score range | The exact text a reader sees |
-| --------------------- | ----------- | ---------------------------- |
-| high-confidence human |             |                              |
-| unsure                |             |                              |
-| high-confidence AI    |             |                              |
+Label Score range The exact text a reader sees
+high-confidence human 0.00 – 0.15 We think this was most likely written by...a person.
+unsure above 0.15 and below 0.85 We couldn’t tell whether...a person or AI wrote this. It could be either.
+high-confidence AI 0.85 – 1.00 Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree |
 
 **Why I worded the "unsure" one this way:**
 
-<!-- It's the hardest of the three. It has to admit uncertainty without
-     sounding like an accusation, because the person reading it may well have
-     written every word themselves. -->
+Most real writers who get a middle score will have written every word themselves, so the unsure label only says that we couldn't tell. It names both possibilities equally ("a person or AI") and does not suggest the writer did anything wrong. I kept the AI label's "we could be wrong" and the mention of appealing because that label is the one a real writer might wrongly receive.
 
 ---
 
 ## Sample Run
 
-<!-- One submission and one appeal, pasted as text: the request, the response,
-     and the log entries. -->
+un on Windows PowerShell, so the commands use curl.exe and send the JSON from a file.
 
-**A submission**
-$ curl -X POST http://127.0.0.1:5000/submit \
-  -H "Content-Type: application/json" \
-  -d '{"text": "...", "creator_id": "..."}'
+**_A submission_**
 
-<!-- The response needs content_id, guess, confidence, label, AND both
-     signal scores - model_score and style_score. Unit 8's tools read those
-     two off the response, so leaving them out costs you next unit's
-     diagnostics. -->
+sample-submit.json:
 
-```bash
-$ curl -X POST http://127.0.0.1:5000/submit \
-  -H "Content-Type: application/json" \
-  -d '{"text": "...", "creator_id": "..."}'
-```
+{"text":"A writing platform should explain how it evaluates submissions. Automated checks can identify patterns, but they can also make mistakes. Writers should have a clear way to challenge a decision.","creator_id":"kenneth"}
 
-```json
+powershell
 
-```
+curl.exe -i -X POST http://127.0.0.1:5000/submit -H "Content-Type: application/json" --data-binary "@sample-submit.json"
+HTTP/1.1 200 OK
+Server: Werkzeug/3.1.9 Python/3.13.15
+Date: Tue, 03 Nov 2026 06:57:29 GMT
+Content-Type: application/json
+Content-Length: 273
+Connection: close
 
-**An appeal**
+{
+"confidence": 0.4585,
+"content_id": "9d059376-a5be-4f7b-a2d6-2be01b72fa5c",
+"guess": "unsure",
+"label": "We couldn’t tell whether...a person or AI wrote this. It could be either.",
+"model_score": 0.4279,
+"status": "classified",
+"style_score": 0.5167
+}
 
-```bash
-$ curl -X POST http://127.0.0.1:5000/appeal \
-  -H "Content-Type: application/json" \
-  -d '{"content_id": "...", "reasoning": "..."}'
-```
+The model scored it 0.4279 and the style signal 0.5167. Their average is 0.4723, which the stretch moves to 0.4585, inside the unsure range.
 
-```json
+**_An appeal_**
 
-```
+appeal.json:
 
-**What the log shows afterwards**
+json
+{"content_id":"9d059376-a5be-4f7b-a2d6-2be01b72fa5c","reasoning":"I wrote this myself as project notes. It reads plainly because I wrote it to be clear."}
+powershell
+curl.exe -i -X POST http://127.0.0.1:5000/appeal -H "Content-Type: application/json" --data-binary "@appeal.json"
+HTTP/1.1 200 OK
+Server: Werkzeug/3.1.9 Python/3.13.15
+Date: Tue, 03 Nov 2026 06:58:38 GMT
+Content-Type: application/json
+Content-Length: 170
+Connection: close
 
-```bash
-$ curl "http://127.0.0.1:5000/log?limit=3"
-```
+{
+"content_id": "9d059376-a5be-4f7b-a2d6-2be01b72fa5c",
+"message": "Your appeal has been received. A person will review this decision.",
+"status": "under_review"
+}
 
-```json
+**_What the log shows afterwards_**
 
-```
+powershell
 
----
+curl.exe "http://127.0.0.1:5000/log?limit=2"
+
+{
+"count": 2,
+"entries": [
+{
+"combined_score": 0.4585,
+"content_id": "9d059376-a5be-4f7b-a2d6-2be01b72fa5c",
+"creator_id": "kenneth",
+"guess": "unsure",
+"label": "We couldn’t tell whether...a person or AI wrote this. It could be either.",
+"model_score": 0.4279,
+"status": "classified",
+"style_score": 0.5167,
+"timestamp": "2026-11-03T06:57:29+00:00"
+},
+{
+"content_id": "9d059376-a5be-4f7b-a2d6-2be01b72fa5c",
+"creator_id": "kenneth",
+"event": "appeal",
+"reasoning": "I wrote this myself as project notes. It reads plainly because I wrote it to be clear.",
+"status": "under_review",
+"timestamp": "2026-11-03T06:58:38+00:00"
+}
+]
+}
+
+## The original decision stays in the log unchanged. The appeal is added after it with the same content_id, the writer's exact reasoning, and the status under_review. An appeal does not re-run the detector.
 
 ## How I Used AI
 
 **Moment 1**
 
-- _What I asked for:_
-- _What came back:_
-- _What I changed:_
+What I asked for: I asked Claude to check my combining rule (an equal-weight average) against my calibration results.
+What came back: It showed that with my style scores, the AI label could not be reached at all: the model would have needed a score above 1.0. It gave three options with the scores each would produce: keep the average, weight the model at 0.8, or stretch the average away from the middle. It also corrected one of its own earlier estimates, about how far word variety moves on longer text, once my real numbers came in.
+What I changed: I rejected the heavier model weight, because it raised my own formal writing toward an AI label. I chose the stretch, and I wrote the rule into this README and committed it before I changed the code. I also recorded that 1.5 was tuned on my own four inputs.
 
 **Moment 2**
 
-- _What I asked for:_
-- _What came back:_
-- _What I changed:_
+What I asked for: Code to wire the second signal and the combined score into /submit and the audit log.
+What came back: Its first version also connected score_to_label, which is Milestone 5 work.
+What I changed: I kept Milestone 4 to its scope. The guess and label stay placeholders until Milestone 5, and only the two signal scores and the combined score were wired in. When the response still showed null scores, I checked the file with Select-String. That showed the edit hadn't saved, so I replaced the whole function and confirmed the response showed style 0.5167 and combined 0.4723.
 
 <!-- ═══════════════════════ UNIT 8 — THE TEST ═══════════════════════ -->
 
