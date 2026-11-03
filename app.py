@@ -147,14 +147,13 @@ def health():
 
 
 # ── Submission route ─────────────────────────────────────────────────────────
-
 @app.post("/submit")
 # @limiter.limit(f"{config.RATE_LIMIT_PER_MINUTE}/minute;{config.RATE_LIMIT_PER_DAY}/day")
 def submit():
-    """Validate text, run the model signal, log it, and return JSON."""
-    import uuid
+    """Validate text, run both signals, combine them, log it, and return JSON."""
     import detector
-    import audit
+    import scoring
+    import stylometry
 
     if not request.is_json:
         return jsonify({"error": "Use application/json."}), 415
@@ -167,14 +166,10 @@ def submit():
     creator_id = payload.get("creator_id")
 
     if not isinstance(text, str) or not text.strip():
-        return jsonify({
-            "error": "text must be a nonempty string."
-        }), 400
+        return jsonify({"error": "text must be a nonempty string."}), 400
 
     if not isinstance(creator_id, str) or not creator_id.strip():
-        return jsonify({
-            "error": "creator_id must be a nonempty string."
-        }), 400
+        return jsonify({"error": "creator_id must be a nonempty string."}), 400
 
     try:
         model_score = detector.model_signal(text)
@@ -183,11 +178,17 @@ def submit():
     except detector.DetectorUnavailable as exc:
         return jsonify({"error": str(exc)}), 503
 
+    # Signal two: the shape of the text (no model, no meaning).
+    style_score = stylometry.style_signal(text)
+
+    # One number from two. The rule lives in scoring.py::combine_signals.
+    combined_score = round(scoring.combine_signals(model_score, style_score), 4)
+
     content_id = str(uuid.uuid4())
 
-    # Placeholders until combined scoring and labels are implemented.
+    # Labels are Milestone 5. Placeholders until then.
     guess = "unsure"
-    label = "Analysis incomplete: combined scoring is not connected yet."
+    label = "Analysis incomplete: labels are not connected yet."
     status = "classified"
 
     audit.log_decision(
@@ -195,8 +196,8 @@ def submit():
         creator_id=creator_id,
         guess=guess,
         model_score=model_score,
-        style_score=None,
-        combined_score=None,
+        style_score=style_score,
+        combined_score=combined_score,
         label=label,
         status=status,
     )
@@ -204,9 +205,9 @@ def submit():
     return jsonify({
         "content_id": content_id,
         "guess": guess,
+        "confidence": combined_score,
         "model_score": model_score,
-        "style_score": None,
-        "confidence": None,
+        "style_score": style_score,
         "label": label,
         "status": status,
     }), 200
