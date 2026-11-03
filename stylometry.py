@@ -48,60 +48,61 @@ def words(text: str) -> list[str]:
 # ── The three measures — YOU BUILD THESE ─────────────────────────────────────
 
 def sentence_length_spread(text: str) -> float:
-    """
-    How much sentence length varies. ← TODO
+    """Sample standard deviation divided by mean sentence length."""
+    lengths = [
+        len(words(sentence))
+        for sentence in sentences(text)
+        if words(sentence)
+    ]
 
-    Returns:
-        A float. Decide yourself what scale it's on and which direction means
-        "more human" — then write that down, because your combining rule
-        depends on knowing it.
+    if len(lengths) < 2:
+        return 0.0
 
-    A hint on what you're reaching for: the standard deviation of sentence
-    lengths, probably divided by the mean so a long text and a short one are
-    comparable. `statistics.stdev` is imported for you.
-
-    Watch the edge case: a one-sentence submission has no spread at all, and
-    `stdev` raises on fewer than two values. Decide what that should return
-    before the attack set decides for you.
-    """
-    # TODO: replace this
-    return 0.0
+    return statistics.stdev(lengths) / statistics.mean(lengths)
 
 
 def type_token_ratio(text: str) -> float:
-    """
-    Unique words over total words. ← TODO
+    """Unique words divided by total words."""
+    tokens = words(text)
 
-    Returns:
-        A float between 0 and 1. Higher means more varied vocabulary.
+    if not tokens:
+        return 0.0
 
-    Worth knowing before you rely on it: this measure falls as text gets
-    longer, because common words repeat. Two texts of different lengths aren't
-    directly comparable on it, and if your test inputs vary a lot in length,
-    that alone can look like a signal.
-    """
-    # TODO: replace this
-    return 0.0
+    return len(set(tokens)) / len(tokens)
 
 
 def punctuation_density(text: str) -> float:
-    """
-    How much punctuation, relative to length. ← TODO
+    """Selected punctuation characters divided by all characters."""
+    if not text:
+        return 0.0
 
-    Returns:
-        A float. Whether you count all punctuation or only some kinds — commas,
-        semicolons, dashes — is a real choice. Semicolons and em dashes are
-        more interesting than full stops, because they vary more between
-        writers.
-    """
-    # TODO: replace this
-    return 0.0
+    punctuation = set(".,!?;:-—–()[]{}\"'…")
+    count = sum(character in punctuation for character in text)
+    return count / len(text)
+
+
+def style_signal(text: str) -> float:
+    """Experimental style score: higher means more AI-like."""
+    tokens = words(text)
+    usable_sentences = [
+        sentence for sentence in sentences(text)
+        if words(sentence)
+    ]
+
+    if len(tokens) < 20 or len(usable_sentences) < 2:
+        return 0.5
+
+    spread = sentence_length_spread(text)
+    uniformity = 1.0 - min(spread, 1.0)
+    repetition = 1.0 - type_token_ratio(text)
+
+    score = (uniformity + repetition) / 2.0
+    return round(score, 4)
 
 
 # ── Combining them ───────────────────────────────────────────────────────────
-
-def style_signal(text: str) -> float:
-    """
+"""def style_signal(text: str) -> float:
+  
     The style signal as a 0–1 score. **Higher means more likely AI.** ← TODO
 
     Combine your three measures into one number. Same direction as
@@ -121,9 +122,9 @@ def style_signal(text: str) -> float:
     clearly human, plain conventional human writing, lightly-edited AI — before
     you trust it. Plain and ordinary, not formal: formal prose reads as *human*
     to signal one, and it is plain writing that gets accused.
-    """
+  
     # TODO: replace this
-    return 0.5
+    return 0.5  """
 
 
 if __name__ == "__main__":
@@ -139,4 +140,4 @@ if __name__ == "__main__":
     print(f"type_token_ratio         {type_token_ratio(text)}")
     print(f"punctuation_density      {punctuation_density(text)}")
     print(f"style_signal             {style_signal(text)}   (higher = more likely AI)")
-    print("\nAll zeros? These are stubs — Milestone 4 is where you build them.")
+
