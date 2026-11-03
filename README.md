@@ -36,54 +36,73 @@
 
 ## What This Does
 
-<!-- The path a submission takes, from arriving to the label a reader sees.
-     Six or seven steps — this is the trace you wrote in Milestone 1. -->
+Provenance Guard is a small web service a writing site could use. It takes a piece of writing, makes a guess about whether a person or an AI wrote it, and gives the writer a way to push back.
 
+The path a submission takes:
+
+The writer sends their text. A POST /submit request arrives with text and creator_id as JSON.
+The route checks the input (app.py::submit). The request must be JSON (otherwise 415), and both fields must be non-blank strings (otherwise 400 with an error message). Nothing is scored or logged for a bad request.
+Signal one reads the text (detector.py::model_signal). A small language model (gpt2) running on my laptop measures how predictable the text is, and turns that into a 0–1 score.
+Signal two measures the shape of the text (stylometry.py::style_signal). It looks at how much sentence lengths vary and how often words repeat, and turns that into a 0–1 score.
+The two scores become one (scoring.py::combine_signals). Higher always means "more likely AI".
+The score becomes a guess and a label (scoring.py::score_to_label): high-confidence human, unsure, or high-confidence AI.
+Everything is recorded and returned. The app writes the content id, creator id, both signal scores, the combined score, the guess, the label and the status to logs/audit.jsonl (audit.py), then returns the same result as JSON with a new content_id. The writer can use that id with POST /appeal to say the decision was wrong, which moves the item to under_review.
 ---
 
 ## Signals and Scoring
 
-I combine the two signals using an equal-weight average:
-0.5 × model_score + 0.5 × style_score.
 
-I use equal weights as a starting point because I have not
-established that either signal is more reliable. Opposing
-scores move the combined result toward the unsure range.
-
-The rule is in scoring.py::combine_signals.
-The weights are in config.py.
 
 ### Signal one — the model signal
 
-**What it measures:**
+What it measures: How predictable the text is to a language model (gpt2, run locally). The model's perplexity is squashed onto 0–1. Low perplexity, meaning predictable text, gives a high score (more AI-like).
 
-**Why that might differ between human and AI writing:**
+Why that might differ between human and AI writing: An AI writes by repeatedly picking a likely next word, so its text tends to be easy for a model to predict. People make more unusual word choices and turns.
 
-**What it can't see:**
+What it can't see: Who actually wrote the text. Predictable is not the same as machine-written. Plain writing, a second-language writer using words they are sure of, or formal writing all look predictable. In my own testing, a formal paragraph I wrote myself scored 0.62 on this signal, leaning AI. Dense writing with rare words can go the other way and look human.
 
 ### Signal two — the style signal
+What it measures: The shape of the text, without understanding any of it. Two measures go into the score:
 
-**What it measures:**
+Sentence length spread: the standard deviation of sentence lengths divided by the average sentence length. Low spread means sentences march in step.
+Type-token ratio (TTR): unique words divided by total words. A low ratio means more repetition.
 
-**Why that might differ between human and AI writing:**
+The score is ((1 − min(spread, 1)) + (1 − TTR)) / 2, so even sentence lengths and repeated words both push it toward 1 (AI-like). I also compute punctuation density, but it is not part of the score.
 
-**What it can't see:**
+Why that might differ between human and AI writing: Generated text tends to use even, medium-length sentences and a narrower vocabulary. Human writing is lumpier, with a three-word sentence next to a long one.
+
+What it can't see:
+
+Meaning. Anything that changes the shape without changing the content moves the score: typos, breaking sentences up, pasting in a quotation.
+Purposeful repetition. A person can repeat on purpose, for example in a poem.
+Length effects. TTR drops as text gets longer, whoever wrote it.
+Short text. Under 20 words, or fewer than 2 sentences, it returns a fixed 0.5. So only the model signal decides short submissions.
 
 ### The combining rule
+The rule: First I take an equal-weight average of the two signals. Then I stretch that average away from the middle, so a score that both signals push in the same direction moves further toward 0 or 1. The result is clipped to stay between 0 and 1.
 
-<!-- Write the rule in words, then give the numbers. What happens when the two
-     signals disagree? -->
+The numbers:
 
-**The rule:**
+average  = 0.5 × model_score + 0.5 × style_score
+combined = 0.5 + 1.5 × (average − 0.5), clipped to 0–1
 
-**The numbers:**
+The weights are WEIGHT_MODEL_SIGNAL and WEIGHT_STYLE_SIGNAL (0.5 each) and the stretch is STRETCH_FACTOR (1.5), all in config.py.
 
-**Where it lives:** `scoring.py::combine_signals`
+This is the same as narrowing the unsure band. My thresholds stay at 0.15 and 0.85 on the combined score, but measured on the plain average they work out to: human if the average is 0.267 or below, and AI if it is 0.733 or above.
 
-<!-- ⚠️ The grader checks your code against that line. If your rule lives
-     somewhere else, say where. -->
+Why: With a plain average, none of my four calibration inputs reached a confident label. The AI label could not be reached at all: my highest style score was 0.60, so the model would have needed a score above 1.0. I chose the stretch over giving the model signal more weight, because the model signal is the one that reads plain writing as AI. Weighting it at 0.8 would have raised my own formal writing from 0.53 to 0.58.
 
-**A case where my two signals split, and what my rule does with it:**
+Known weakness: I picked 1.5 using the same four inputs I tested with, so it is tuned to them. The unit 8 attack set is a fairer test.
+
+Where it lives: scoring.py::combine_signals
+
+Calibration run (calibrate.py::main, same pipeline as /submit):
+
+Input	         Words	 Model	Style	Average	Combined (stretched)
+clearly AI	     154	0.8015	0.4915	0.6465	0.7198
+clearly human	     120	0.2568	0.2103	0.2335	0.1003
+formal human	      68	0.6164	0.4454	0.5309	0.5464
+lightly-edited AI	141	0.9290	0.6035	0.7663	0.8995
 
 ---
 
@@ -114,6 +133,9 @@ The weights are in config.py.
      and the log entries. -->
 
 **A submission**
+$ curl -X POST http://127.0.0.1:5000/submit \
+  -H "Content-Type: application/json" \
+  -d '{"text": "...", "creator_id": "..."}'
 
 <!-- The response needs content_id, guess, confidence, label, AND both
      signal scores - model_score and style_score. Unit 8's tools read those
