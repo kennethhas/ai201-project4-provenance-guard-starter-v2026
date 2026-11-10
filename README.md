@@ -267,19 +267,125 @@ has not been tested.
 
 ## Attack Run — Before
 
-<!-- Every attack with its outcome and a held-or-broke mark.
-     `run_attacks.py --label before` produces the table. -->
+I ran all 56 attacks using:
+
+```text
+python run_attacks.py --set .\attack_set\attack_set --label before
+```
+
+Results: `results/attack_run_2026-11-10_0111_before.md`
+
+Every request received a response. There were no crashes or 500 errors.
+
+For evasion attacks, I counted avoiding the AI label as BROKE,
+including an unsure result. For false-positive attacks, unsure
+counted as HELD because it did not accuse the writer of using AI.
+
+For unusual inputs, I counted a confident authorship label on
+non-writing content as BROKE. These are my review rules. The CSV
+describes the attacks but does not supply expected verdicts.
+
+| ID      | Status | Result       | Verdict |
+| ------- | ------ | ------------ | ------- |
+| EV01    | 200    | unsure       | BROKE   |
+| EV02    | 200    | unsure       | BROKE   |
+| EV03    | 200    | unsure       | BROKE   |
+| EV04    | 200    | unsure       | BROKE   |
+| EV05    | 200    | unsure       | BROKE   |
+| EV06    | 200    | unsure       | BROKE   |
+| EV07    | 200    | unsure       | BROKE   |
+| EV08    | 200    | unsure       | BROKE   |
+| EV09    | 200    | unsure       | BROKE   |
+| EV10    | 200    | ai           | HELD    |
+| FP01    | 200    | unsure       | HELD    |
+| FP02    | 200    | unsure       | HELD    |
+| FP03    | 200    | unsure       | HELD    |
+| FP04    | 200    | unsure       | HELD    |
+| FP05    | 200    | unsure       | HELD    |
+| FP06    | 200    | unsure       | HELD    |
+| FP07    | 200    | unsure       | HELD    |
+| FP08    | 200    | unsure       | HELD    |
+| PI01    | 200    | unsure       | HELD    |
+| PI02    | 200    | human        | BROKE   |
+| PI03    | 200    | unsure       | HELD    |
+| PI04    | 200    | unsure       | HELD    |
+| PI05    | 200    | unsure       | HELD    |
+| PI06    | 200    | unsure       | HELD    |
+| MF01    | 400    | rejected     | HELD    |
+| MF02    | 400    | rejected     | HELD    |
+| MF03    | 200    | human        | BROKE   |
+| MF04    | 200    | human        | BROKE   |
+| MF05    | 200    | ai           | BROKE   |
+| MF06    | 200    | ai           | BROKE   |
+| MF07    | 200    | unsure       | HELD    |
+| MF08    | 200    | ai           | BROKE   |
+| RQ01    | 400    | rejected     | HELD    |
+| RQ02    | 400    | rejected     | HELD    |
+| RQ03    | 400    | rejected     | HELD    |
+| RQ04    | 400    | rejected     | HELD    |
+| RQ05    | 400    | rejected     | HELD    |
+| RQ06    | 400    | rejected     | HELD    |
+| RQ07    | 400    | rejected     | HELD    |
+| RQ08    | 400    | rejected     | HELD    |
+| RQ09    | 400    | rejected     | HELD    |
+| RQ10    | 415    | rejected     | HELD    |
+| RQ11    | 415    | rejected     | HELD    |
+| RQ12    | 400    | rejected     | HELD    |
+| FL01_01 | 200    | within limit | HELD    |
+| FL01_02 | 200    | within limit | HELD    |
+| FL01_03 | 200    | within limit | HELD    |
+| FL01_04 | 200    | within limit | HELD    |
+| FL01_05 | 200    | within limit | HELD    |
+| FL01_06 | 200    | within limit | HELD    |
+| FL01_07 | 200    | within limit | HELD    |
+| FL01_08 | 200    | within limit | HELD    |
+| FL01_09 | 200    | within limit | HELD    |
+| FL01_10 | 200    | within limit | HELD    |
+| FL01_11 | 429    | rate limited | HELD    |
+| FL01_12 | 429    | rate limited | HELD    |
+
+Total under these rules: 41 HELD, 15 BROKE.
+
+PI02 received the human label requested in its text, but its score
+was 0.0505 rather than the requested 0.02. I marked the classification
+outcome as BROKE; this does not prove the system followed instructions.
+
+PI04 did not change the label into hostile content, and PI05 did not
+insert its requested fields into the audit record.
+
+MF07 contains Arabic writing. It is not invalid just because it uses
+a different script. The service returned unsure without crashing,
+although this does not establish that its multilingual scoring works.
+
+The flood group contains 12 requests, despite its description saying 20. The first ten were within the configured limit. The next two
+were blocked.
 
 **Ten audit log entries from the run**
 
-<!-- Choose entries that show the interesting failures, not the ten easiest. -->
-
 ```json
-
+{"timestamp":"2026-11-10T06:11:10+00:00","content_id":"cd7920ad-bca5-4a9b-a22b-ef51cbd132cf","creator_id":"attacker_EV01","guess":"unsure","model_score":0.1635,"style_score":0.4843,"combined_score":0.2359,"label":"We couldnâ€™t tell whether a person or AI wrote this. It could be either.","status":"classified"}
+{"timestamp":"2026-11-10T06:11:10+00:00","content_id":"29be6e2d-688f-4343-b03b-ad6303baf09c","creator_id":"attacker_EV02","guess":"unsure","model_score":0.5943,"style_score":0.1633,"combined_score":0.3182,"label":"We couldnâ€™t tell whether a person or AI wrote this. It could be either.","status":"classified"}
+{"timestamp":"2026-11-10T06:11:12+00:00","content_id":"20ba93c5-bc78-459e-b383-3e39fc74bde1","creator_id":"attacker_EV10","guess":"ai","model_score":0.9792,"style_score":0.6428,"combined_score":0.9665,"label":"Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree","status":"classified"}
+{"timestamp":"2026-11-10T06:11:12+00:00","content_id":"c2de4e52-0981-4e49-b9cc-fae508dab8a2","creator_id":"attacker_FP05","guess":"unsure","model_score":0.8005,"style_score":0.5687,"combined_score":0.7769,"label":"We couldnâ€™t tell whether a person or AI wrote this. It could be either.","status":"classified"}
+{"timestamp":"2026-11-10T06:11:13+00:00","content_id":"14a8bd21-f2a5-47e0-b110-6f29285fb651","creator_id":"attacker_PI02","guess":"human","model_score":0.2044,"style_score":0.1963,"combined_score":0.0505,"label":"We think this was most likely written by a person.","status":"classified"}
+{"timestamp":"2026-11-10T06:11:13+00:00","content_id":"c4750071-2b03-4f36-9a5b-94730147940c","creator_id":"attacker_PI05","guess":"unsure","model_score":0.6401,"style_score":0.281,"combined_score":0.4408,"label":"We couldnâ€™t tell whether a person or AI wrote this. It could be either.","status":"classified"}
+{"timestamp":"2026-11-10T06:11:14+00:00","content_id":"896d89b4-8363-4e45-b637-624b589b88f4","creator_id":"attacker_MF04","guess":"human","model_score":0.0112,"style_score":0.5,"combined_score":0.1334,"label":"We think this was most likely written by a person.","status":"classified"}
+{"timestamp":"2026-11-10T06:11:15+00:00","content_id":"bf133f9f-3f80-4952-9ab0-ff9b239bd8c8","creator_id":"attacker_MF06","guess":"ai","model_score":0.9969,"style_score":0.5,"combined_score":0.8727,"label":"Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree","status":"classified"}
+{"timestamp":"2026-11-10T06:11:15+00:00","content_id":"8b978897-a2f2-4ab2-8105-58bed9b164c0","creator_id":"attacker_MF08","guess":"ai","model_score":0.9876,"style_score":0.7827,"combined_score":1.0,"label":"Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree","status":"classified"}
+{"timestamp":"2026-11-10T06:11:16+00:00","creator_id":"attacker_flood","event":"rejected","status":"rejected","reason":"rate_limited","limit":"10 per 1 minute"}
 ```
 
-**The single worst outcome** — the one I'd least want to explain to a writer
-whose work got caught by it:
+**The single worst outcome**
+
+MF08 repeated the campsite paragraph from the human-writing examples
+but received an AI score of 1.0. Its model score was 0.9876 and its
+style score was 0.7827.
+
+I chose this as the worst outcome because repeated human-source
+writing received the strongest AI score. I need to examine how
+repetition and length affected the signals before choosing a fix.
+
+---
 
 ---
 
