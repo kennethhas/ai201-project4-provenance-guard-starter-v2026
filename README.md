@@ -228,28 +228,42 @@ What I changed: I kept Milestone 4 to its scope. The guess and label stay placeh
 
 ## Rate Limiting
 
-**My limits:** **_ per minute, _** per day
+**My limits:** 10 submissions per minute and 200 per day.
 
-**Why those numbers and not others:**
+**Why these numbers:** Ten per minute allows a writer to submit several
+revisions while restricting rapid automated submissions. Two hundred per
+day caps sustained submissions while allowing substantial ordinary use.
+These are initial limits for this exercise, not production-tested limits.
 
-<!-- Think about two people: a real writer submitting their own work a few
-     times an hour, and a script sending a thousand variations to map your
-     thresholds. Your numbers have to be liveable for the first and hostile to
-     the second. -->
+**What a caller counts as:** Requests are counted by creator_id.
+Requests without a usable creator_id fall back to the caller's IP address.
+Changing creator_id can bypass the per-creator cap, so this does not
+prevent all automated abuse.
 
-**What a caller counts as:** <!-- per address, or per creator_id? They fail
-differently — one script can look like a thousand callers, and one household
-can look like one. -->
+**Flood test:** Ran `python run_attacks.py --flood 15`.
 
-**The run of status codes when I pushed past it:**
-
-<!-- python run_attacks.py --flood 15 -->
-
+```text
+200 200 200 200 200 200 200 200 200 200 429 429 429 429 429
 ```
 
+Ten requests succeeded and five were rate limited.
+Result file: `results/flood_2026-11-10_0105.md`.
+
+**Logged rejection:**
+
+```json
+{
+  "creator_id": "flood_tester",
+  "event": "rejected",
+  "limit": "10 per 1 minute",
+  "reason": "rate_limited",
+  "status": "rejected",
+  "timestamp": "2026-11-10T06:05:11+00:00"
+}
 ```
 
----
+The per-minute limit was verified. The daily limit is configured but
+has not been tested.
 
 ## Attack Run — Before
 

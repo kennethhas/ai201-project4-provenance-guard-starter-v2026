@@ -148,35 +148,52 @@ def health():
 
 # ── Submission route ─────────────────────────────────────────────────────────
 @app.post("/submit")
-# @limiter.limit(f"{config.RATE_LIMIT_PER_MINUTE}/minute;{config.RATE_LIMIT_PER_DAY}/day")
+@limiter.limit(f"{config.RATE_LIMIT_PER_MINUTE}/minute;{config.RATE_LIMIT_PER_DAY}/day")
 def submit():
     """Validate text, run both signals, combine them, log it, and return JSON."""
     import detector
     import scoring
     import stylometry
 
+    def reject(message, status_code, creator="unknown"):
+        audit.log_rejection(
+            creator_id=creator,
+            reason=message,
+            status_code=status_code,
+        )
+        return jsonify({"error": message}), status_code
+
     if not request.is_json:
-        return jsonify({"error": "Use application/json."}), 415
+        return reject("Use application/json.", 415)
 
     payload = request.get_json(silent=True)
     if not isinstance(payload, dict):
-        return jsonify({"error": "Send a valid JSON object."}), 400
+        return reject("Send a valid JSON object.", 400)
 
     text = payload.get("text")
     creator_id = payload.get("creator_id")
+    log_creator = (
+        creator_id
+        if isinstance(creator_id, str) and creator_id.strip()
+        else "unknown"
+    )
 
     if not isinstance(text, str) or not text.strip():
-        return jsonify({"error": "text must be a nonempty string."}), 400
+        return reject(
+            "text must be a nonempty string.", 400, log_creator
+        )
 
     if not isinstance(creator_id, str) or not creator_id.strip():
-        return jsonify({"error": "creator_id must be a nonempty string."}), 400
+        return reject(
+            "creator_id must be a nonempty string.", 400, log_creator
+        )
 
     try:
         model_score = detector.model_signal(text)
     except ValueError as exc:
-        return jsonify({"error": str(exc)}), 400
+        return reject(str(exc), 400, log_creator)
     except detector.DetectorUnavailable as exc:
-        return jsonify({"error": str(exc)}), 503
+        return reject(str(exc), 503, log_creator)
 
     # Signal two: the shape of the text (no model, no meaning).
     style_score = stylometry.style_signal(text)
