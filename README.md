@@ -393,19 +393,111 @@ repetition and length affected the signals before choosing a fix.
 
 <!-- Your five criteria across three trials. `run_eval.py --label before`. -->
 
-| Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
-| --------- | ------ | ----- | ----- | ----- | ------- |
-| 1.        |        |       |       |       |         |
-| 2.        |        |       |       |       |         |
-| 3.        |        |       |       |       |         |
-| 4.        |        |       |       |       |         |
-| 5.        |        |       |       |       |         |
+| Criterion                        | Target                                                     | Run 1 | Run 2 | Run 3 | Verdict |
+| -------------------------------- | ---------------------------------------------------------- | ----- | ----- | ----- | ------- |
+| 1. My writing labelled AI        | At most 1 of 10                                            | 0/10  | 0/10  | 0/10  | MET     |
+| 2. All three labels appear       | 3 of 3 labels                                              | 2/3   | 2/3   | 2/3   | MISSED  |
+| 3. Valid appeals are recorded    | 5 of 5 pass every check                                    | 5/5   | 5/5   | 5/5   | MET     |
+| 4. Invalid text returns an error | 4 of 4 return 400, an error message, and no classification | 4/4   | 4/4   | 4/4   | MET     |
+| 5. Scores map to correct labels  | 9 of 9 categories and label texts match                    | 9/9   | 9/9   | 9/9   | MET     |
 
 **Real output from one trial**, pasted as text, naming the file and function
 that produced it:
 
-```json
+**Real output from one trial**
 
+These examples come from trial 1. The complete results for all
+three trials are saved in `results/`.
+
+**Criterion 1 — My own writing**
+
+Produced by `run_eval.py::main`, calling `app.py::submit`.
+Sample 1 returned HTTP 200:
+
+```json
+{
+  "confidence": 0.3167,
+  "content_id": "24e73a98-3ac8-49fb-9fe6-ad86b594c26b",
+  "guess": "unsure",
+  "label": "We couldn’t tell whether a person or AI wrote this. It could be either.",
+  "model_score": 0.2209,
+  "status": "classified",
+  "style_score": 0.5347
+}
+```
+
+**Criterion 2 — Label coverage**
+
+Produced by `run_eval.py::main`, calling `app.py::submit`.
+The generated learning paragraph returned HTTP 200:
+
+```json
+{
+  "confidence": 0.6417,
+  "content_id": "c946441f-1436-4ce3-b967-f351f5f7d86f",
+  "guess": "unsure",
+  "label": "We couldn’t tell whether a person or AI wrote this. It could be either.",
+  "model_score": 0.7009,
+  "status": "classified",
+  "style_score": 0.488
+}
+```
+
+**Criterion 3 — Appeals**
+
+Produced by `test_appeals.py::main`, calling `app.py::appeal`.
+The first appeal returned HTTP 200:
+
+```json
+{
+  "content_id": "34b400f0-71b7-48b5-a307-8662149ba5c5",
+  "message": "Your appeal has been received. A person will review this decision.",
+  "status": "under_review"
+}
+```
+
+Its new audit entry was:
+
+```json
+{
+  "content_id": "34b400f0-71b7-48b5-a307-8662149ba5c5",
+  "creator_id": "appeal_eval_521c32dc5c4a_1",
+  "event": "appeal",
+  "reasoning": "I wrote sample 1 myself. Please review the classification.",
+  "status": "under_review",
+  "timestamp": "2026-11-11T20:39:21+00:00"
+}
+```
+
+The test compared the log before and after each appeal. The original
+decision stayed unchanged. Current status was checked using the
+latest entry for that content ID.
+
+**Criterion 4 — Invalid text**
+
+Produced by `run_eval.py::main`, calling `app.py::submit`.
+The request with no text field returned HTTP 400:
+
+```json
+{
+  "error": "text must be a nonempty string."
+}
+```
+
+**Criterion 5 — Label boundaries**
+
+Produced by `test_boundaries.py::main`, calling
+`scoring.py::score_to_label` directly:
+
+```json
+{
+  "score": 0.0,
+  "expected_guess": "human",
+  "expected_label": "We think this was most likely written by a person.",
+  "actual_guess": "human",
+  "actual_label": "We think this was most likely written by a person.",
+  "passed": true
+}
 ```
 
 **Diagnoses**
