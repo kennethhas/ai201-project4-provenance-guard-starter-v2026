@@ -187,7 +187,12 @@ def submit():
         return reject(
             "creator_id must be a nonempty string.", 400, log_creator
         )
-
+    if not any(character.isalpha() for character in text):
+        return reject(
+            "text must contain at least one alphabetic letter.",
+            400,
+            log_creator,
+        )
     try:
         model_score = detector.model_signal(text)
     except ValueError as exc:

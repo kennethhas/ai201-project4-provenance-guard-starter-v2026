@@ -1,0 +1,1078 @@
+{
+  "criterion": 3,
+  "phase": "after",
+  "produced_by": "test_appeals.py::main",
+  "target": "All five appeals pass every check in every trial",
+  "status_check": "Current status is read from the latest audit entry for the submission; the original decision stays unchanged.",
+  "trials": [
+    {
+      "trial": 1,
+      "passed": 5,
+      "results": [
+        {
+          "sample": 1,
+          "creator_id": "appeal_eval_cf5030e8b3a2_1",
+          "reasoning": "I wrote sample 1 myself. Please review the classification.",
+          "passed": true,
+          "submission": {
+            "http_status": 200,
+            "response": {
+              "confidence": 0.3167,
+              "content_id": "62d38d38-940e-49e9-8324-1a455e2d2c1d",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.2209,
+              "status": "classified",
+              "style_score": 0.5347
+            }
+          },
+          "history_before": [
+            {
+              "combined_score": 0.3167,
+              "content_id": "62d38d38-940e-49e9-8324-1a455e2d2c1d",
+              "creator_id": "appeal_eval_cf5030e8b3a2_1",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.2209,
+              "status": "classified",
+              "style_score": 0.5347,
+              "timestamp": "2026-11-11T20:55:14+00:00"
+            }
+          ],
+          "appeal": {
+            "http_status": 200,
+            "response": {
+              "content_id": "62d38d38-940e-49e9-8324-1a455e2d2c1d",
+              "message": "Your appeal has been received. A person will review this decision.",
+              "status": "under_review"
+            }
+          },
+          "history_after": [
+            {
+              "combined_score": 0.3167,
+              "content_id": "62d38d38-940e-49e9-8324-1a455e2d2c1d",
+              "creator_id": "appeal_eval_cf5030e8b3a2_1",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.2209,
+              "status": "classified",
+              "style_score": 0.5347,
+              "timestamp": "2026-11-11T20:55:14+00:00"
+            },
+            {
+              "content_id": "62d38d38-940e-49e9-8324-1a455e2d2c1d",
+              "creator_id": "appeal_eval_cf5030e8b3a2_1",
+              "event": "appeal",
+              "reasoning": "I wrote sample 1 myself. Please review the classification.",
+              "status": "under_review",
+              "timestamp": "2026-11-11T20:55:14+00:00"
+            }
+          ],
+          "checks": {
+            "appeal_returns_200": true,
+            "correct_content_id": true,
+            "response_status_under_review": true,
+            "nonempty_confirmation": true,
+            "original_decision_preserved": true,
+            "exact_reasoning_and_ids_logged": true,
+            "one_new_appeal_record": true,
+            "latest_record_under_review": true
+          }
+        },
+        {
+          "sample": 2,
+          "creator_id": "appeal_eval_cf5030e8b3a2_2",
+          "reasoning": "I wrote sample 2 myself. Please review the classification.",
+          "passed": true,
+          "submission": {
+            "http_status": 200,
+            "response": {
+              "confidence": 0.5667,
+              "content_id": "725e7748-4e2e-43ff-a2cb-e7744c139818",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.619,
+              "status": "classified",
+              "style_score": 0.47
+            }
+          },
+          "history_before": [
+            {
+              "combined_score": 0.5667,
+              "content_id": "725e7748-4e2e-43ff-a2cb-e7744c139818",
+              "creator_id": "appeal_eval_cf5030e8b3a2_2",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.619,
+              "status": "classified",
+              "style_score": 0.47,
+              "timestamp": "2026-11-11T20:55:15+00:00"
+            }
+          ],
+          "appeal": {
+            "http_status": 200,
+            "response": {
+              "content_id": "725e7748-4e2e-43ff-a2cb-e7744c139818",
+              "message": "Your appeal has been received. A person will review this decision.",
+              "status": "under_review"
+            }
+          },
+          "history_after": [
+            {
+              "combined_score": 0.5667,
+              "content_id": "725e7748-4e2e-43ff-a2cb-e7744c139818",
+              "creator_id": "appeal_eval_cf5030e8b3a2_2",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.619,
+              "status": "classified",
+              "style_score": 0.47,
+              "timestamp": "2026-11-11T20:55:15+00:00"
+            },
+            {
+              "content_id": "725e7748-4e2e-43ff-a2cb-e7744c139818",
+              "creator_id": "appeal_eval_cf5030e8b3a2_2",
+              "event": "appeal",
+              "reasoning": "I wrote sample 2 myself. Please review the classification.",
+              "status": "under_review",
+              "timestamp": "2026-11-11T20:55:15+00:00"
+            }
+          ],
+          "checks": {
+            "appeal_returns_200": true,
+            "correct_content_id": true,
+            "response_status_under_review": true,
+            "nonempty_confirmation": true,
+            "original_decision_preserved": true,
+            "exact_reasoning_and_ids_logged": true,
+            "one_new_appeal_record": true,
+            "latest_record_under_review": true
+          }
+        },
+        {
+          "sample": 3,
+          "creator_id": "appeal_eval_cf5030e8b3a2_3",
+          "reasoning": "I wrote sample 3 myself. Please review the classification.",
+          "passed": true,
+          "submission": {
+            "http_status": 200,
+            "response": {
+              "confidence": 0.5977,
+              "content_id": "804b4752-8f20-4508-ba98-57897b483c94",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.6303,
+              "status": "classified",
+              "style_score": 0.5
+            }
+          },
+          "history_before": [
+            {
+              "combined_score": 0.5977,
+              "content_id": "804b4752-8f20-4508-ba98-57897b483c94",
+              "creator_id": "appeal_eval_cf5030e8b3a2_3",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.6303,
+              "status": "classified",
+              "style_score": 0.5,
+              "timestamp": "2026-11-11T20:55:15+00:00"
+            }
+          ],
+          "appeal": {
+            "http_status": 200,
+            "response": {
+              "content_id": "804b4752-8f20-4508-ba98-57897b483c94",
+              "message": "Your appeal has been received. A person will review this decision.",
+              "status": "under_review"
+            }
+          },
+          "history_after": [
+            {
+              "combined_score": 0.5977,
+              "content_id": "804b4752-8f20-4508-ba98-57897b483c94",
+              "creator_id": "appeal_eval_cf5030e8b3a2_3",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.6303,
+              "status": "classified",
+              "style_score": 0.5,
+              "timestamp": "2026-11-11T20:55:15+00:00"
+            },
+            {
+              "content_id": "804b4752-8f20-4508-ba98-57897b483c94",
+              "creator_id": "appeal_eval_cf5030e8b3a2_3",
+              "event": "appeal",
+              "reasoning": "I wrote sample 3 myself. Please review the classification.",
+              "status": "under_review",
+              "timestamp": "2026-11-11T20:55:15+00:00"
+            }
+          ],
+          "checks": {
+            "appeal_returns_200": true,
+            "correct_content_id": true,
+            "response_status_under_review": true,
+            "nonempty_confirmation": true,
+            "original_decision_preserved": true,
+            "exact_reasoning_and_ids_logged": true,
+            "one_new_appeal_record": true,
+            "latest_record_under_review": true
+          }
+        },
+        {
+          "sample": 4,
+          "creator_id": "appeal_eval_cf5030e8b3a2_4",
+          "reasoning": "I wrote sample 4 myself. Please review the classification.",
+          "passed": true,
+          "submission": {
+            "http_status": 200,
+            "response": {
+              "confidence": 0.1164,
+              "content_id": "b3b7f2d1-20f2-4000-bf6b-de224c470340",
+              "guess": "human",
+              "label": "We think this was most likely written by a person.",
+              "model_score": 0.1998,
+              "status": "classified",
+              "style_score": 0.2887
+            }
+          },
+          "history_before": [
+            {
+              "combined_score": 0.1164,
+              "content_id": "b3b7f2d1-20f2-4000-bf6b-de224c470340",
+              "creator_id": "appeal_eval_cf5030e8b3a2_4",
+              "guess": "human",
+              "label": "We think this was most likely written by a person.",
+              "model_score": 0.1998,
+              "status": "classified",
+              "style_score": 0.2887,
+              "timestamp": "2026-11-11T20:55:15+00:00"
+            }
+          ],
+          "appeal": {
+            "http_status": 200,
+            "response": {
+              "content_id": "b3b7f2d1-20f2-4000-bf6b-de224c470340",
+              "message": "Your appeal has been received. A person will review this decision.",
+              "status": "under_review"
+            }
+          },
+          "history_after": [
+            {
+              "combined_score": 0.1164,
+              "content_id": "b3b7f2d1-20f2-4000-bf6b-de224c470340",
+              "creator_id": "appeal_eval_cf5030e8b3a2_4",
+              "guess": "human",
+              "label": "We think this was most likely written by a person.",
+              "model_score": 0.1998,
+              "status": "classified",
+              "style_score": 0.2887,
+              "timestamp": "2026-11-11T20:55:15+00:00"
+            },
+            {
+              "content_id": "b3b7f2d1-20f2-4000-bf6b-de224c470340",
+              "creator_id": "appeal_eval_cf5030e8b3a2_4",
+              "event": "appeal",
+              "reasoning": "I wrote sample 4 myself. Please review the classification.",
+              "status": "under_review",
+              "timestamp": "2026-11-11T20:55:15+00:00"
+            }
+          ],
+          "checks": {
+            "appeal_returns_200": true,
+            "correct_content_id": true,
+            "response_status_under_review": true,
+            "nonempty_confirmation": true,
+            "original_decision_preserved": true,
+            "exact_reasoning_and_ids_logged": true,
+            "one_new_appeal_record": true,
+            "latest_record_under_review": true
+          }
+        },
+        {
+          "sample": 5,
+          "creator_id": "appeal_eval_cf5030e8b3a2_5",
+          "reasoning": "I wrote sample 5 myself. Please review the classification.",
+          "passed": true,
+          "submission": {
+            "http_status": 200,
+            "response": {
+              "confidence": 0.5064,
+              "content_id": "6077e44e-46a5-4f5d-ab75-6139c117eafa",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.4644,
+              "status": "classified",
+              "style_score": 0.5441
+            }
+          },
+          "history_before": [
+            {
+              "combined_score": 0.5064,
+              "content_id": "6077e44e-46a5-4f5d-ab75-6139c117eafa",
+              "creator_id": "appeal_eval_cf5030e8b3a2_5",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.4644,
+              "status": "classified",
+              "style_score": 0.5441,
+              "timestamp": "2026-11-11T20:55:16+00:00"
+            }
+          ],
+          "appeal": {
+            "http_status": 200,
+            "response": {
+              "content_id": "6077e44e-46a5-4f5d-ab75-6139c117eafa",
+              "message": "Your appeal has been received. A person will review this decision.",
+              "status": "under_review"
+            }
+          },
+          "history_after": [
+            {
+              "combined_score": 0.5064,
+              "content_id": "6077e44e-46a5-4f5d-ab75-6139c117eafa",
+              "creator_id": "appeal_eval_cf5030e8b3a2_5",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.4644,
+              "status": "classified",
+              "style_score": 0.5441,
+              "timestamp": "2026-11-11T20:55:16+00:00"
+            },
+            {
+              "content_id": "6077e44e-46a5-4f5d-ab75-6139c117eafa",
+              "creator_id": "appeal_eval_cf5030e8b3a2_5",
+              "event": "appeal",
+              "reasoning": "I wrote sample 5 myself. Please review the classification.",
+              "status": "under_review",
+              "timestamp": "2026-11-11T20:55:16+00:00"
+            }
+          ],
+          "checks": {
+            "appeal_returns_200": true,
+            "correct_content_id": true,
+            "response_status_under_review": true,
+            "nonempty_confirmation": true,
+            "original_decision_preserved": true,
+            "exact_reasoning_and_ids_logged": true,
+            "one_new_appeal_record": true,
+            "latest_record_under_review": true
+          }
+        }
+      ]
+    },
+    {
+      "trial": 2,
+      "passed": 5,
+      "results": [
+        {
+          "sample": 1,
+          "creator_id": "appeal_eval_cf5030e8b3a2_1",
+          "reasoning": "I wrote sample 1 myself. Please review the classification.",
+          "passed": true,
+          "submission": {
+            "http_status": 200,
+            "response": {
+              "confidence": 0.3167,
+              "content_id": "601bfcee-c981-4ad1-8427-edd7b57401e0",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.2209,
+              "status": "classified",
+              "style_score": 0.5347
+            }
+          },
+          "history_before": [
+            {
+              "combined_score": 0.3167,
+              "content_id": "601bfcee-c981-4ad1-8427-edd7b57401e0",
+              "creator_id": "appeal_eval_cf5030e8b3a2_1",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.2209,
+              "status": "classified",
+              "style_score": 0.5347,
+              "timestamp": "2026-11-11T20:55:16+00:00"
+            }
+          ],
+          "appeal": {
+            "http_status": 200,
+            "response": {
+              "content_id": "601bfcee-c981-4ad1-8427-edd7b57401e0",
+              "message": "Your appeal has been received. A person will review this decision.",
+              "status": "under_review"
+            }
+          },
+          "history_after": [
+            {
+              "combined_score": 0.3167,
+              "content_id": "601bfcee-c981-4ad1-8427-edd7b57401e0",
+              "creator_id": "appeal_eval_cf5030e8b3a2_1",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.2209,
+              "status": "classified",
+              "style_score": 0.5347,
+              "timestamp": "2026-11-11T20:55:16+00:00"
+            },
+            {
+              "content_id": "601bfcee-c981-4ad1-8427-edd7b57401e0",
+              "creator_id": "appeal_eval_cf5030e8b3a2_1",
+              "event": "appeal",
+              "reasoning": "I wrote sample 1 myself. Please review the classification.",
+              "status": "under_review",
+              "timestamp": "2026-11-11T20:55:16+00:00"
+            }
+          ],
+          "checks": {
+            "appeal_returns_200": true,
+            "correct_content_id": true,
+            "response_status_under_review": true,
+            "nonempty_confirmation": true,
+            "original_decision_preserved": true,
+            "exact_reasoning_and_ids_logged": true,
+            "one_new_appeal_record": true,
+            "latest_record_under_review": true
+          }
+        },
+        {
+          "sample": 2,
+          "creator_id": "appeal_eval_cf5030e8b3a2_2",
+          "reasoning": "I wrote sample 2 myself. Please review the classification.",
+          "passed": true,
+          "submission": {
+            "http_status": 200,
+            "response": {
+              "confidence": 0.5667,
+              "content_id": "3c1f98de-d957-4701-b6e1-b23da53717c3",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.619,
+              "status": "classified",
+              "style_score": 0.47
+            }
+          },
+          "history_before": [
+            {
+              "combined_score": 0.5667,
+              "content_id": "3c1f98de-d957-4701-b6e1-b23da53717c3",
+              "creator_id": "appeal_eval_cf5030e8b3a2_2",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.619,
+              "status": "classified",
+              "style_score": 0.47,
+              "timestamp": "2026-11-11T20:55:16+00:00"
+            }
+          ],
+          "appeal": {
+            "http_status": 200,
+            "response": {
+              "content_id": "3c1f98de-d957-4701-b6e1-b23da53717c3",
+              "message": "Your appeal has been received. A person will review this decision.",
+              "status": "under_review"
+            }
+          },
+          "history_after": [
+            {
+              "combined_score": 0.5667,
+              "content_id": "3c1f98de-d957-4701-b6e1-b23da53717c3",
+              "creator_id": "appeal_eval_cf5030e8b3a2_2",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.619,
+              "status": "classified",
+              "style_score": 0.47,
+              "timestamp": "2026-11-11T20:55:16+00:00"
+            },
+            {
+              "content_id": "3c1f98de-d957-4701-b6e1-b23da53717c3",
+              "creator_id": "appeal_eval_cf5030e8b3a2_2",
+              "event": "appeal",
+              "reasoning": "I wrote sample 2 myself. Please review the classification.",
+              "status": "under_review",
+              "timestamp": "2026-11-11T20:55:16+00:00"
+            }
+          ],
+          "checks": {
+            "appeal_returns_200": true,
+            "correct_content_id": true,
+            "response_status_under_review": true,
+            "nonempty_confirmation": true,
+            "original_decision_preserved": true,
+            "exact_reasoning_and_ids_logged": true,
+            "one_new_appeal_record": true,
+            "latest_record_under_review": true
+          }
+        },
+        {
+          "sample": 3,
+          "creator_id": "appeal_eval_cf5030e8b3a2_3",
+          "reasoning": "I wrote sample 3 myself. Please review the classification.",
+          "passed": true,
+          "submission": {
+            "http_status": 200,
+            "response": {
+              "confidence": 0.5977,
+              "content_id": "62089e4f-927a-49ec-b028-b18e24c19d9d",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.6303,
+              "status": "classified",
+              "style_score": 0.5
+            }
+          },
+          "history_before": [
+            {
+              "combined_score": 0.5977,
+              "content_id": "62089e4f-927a-49ec-b028-b18e24c19d9d",
+              "creator_id": "appeal_eval_cf5030e8b3a2_3",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.6303,
+              "status": "classified",
+              "style_score": 0.5,
+              "timestamp": "2026-11-11T20:55:17+00:00"
+            }
+          ],
+          "appeal": {
+            "http_status": 200,
+            "response": {
+              "content_id": "62089e4f-927a-49ec-b028-b18e24c19d9d",
+              "message": "Your appeal has been received. A person will review this decision.",
+              "status": "under_review"
+            }
+          },
+          "history_after": [
+            {
+              "combined_score": 0.5977,
+              "content_id": "62089e4f-927a-49ec-b028-b18e24c19d9d",
+              "creator_id": "appeal_eval_cf5030e8b3a2_3",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.6303,
+              "status": "classified",
+              "style_score": 0.5,
+              "timestamp": "2026-11-11T20:55:17+00:00"
+            },
+            {
+              "content_id": "62089e4f-927a-49ec-b028-b18e24c19d9d",
+              "creator_id": "appeal_eval_cf5030e8b3a2_3",
+              "event": "appeal",
+              "reasoning": "I wrote sample 3 myself. Please review the classification.",
+              "status": "under_review",
+              "timestamp": "2026-11-11T20:55:17+00:00"
+            }
+          ],
+          "checks": {
+            "appeal_returns_200": true,
+            "correct_content_id": true,
+            "response_status_under_review": true,
+            "nonempty_confirmation": true,
+            "original_decision_preserved": true,
+            "exact_reasoning_and_ids_logged": true,
+            "one_new_appeal_record": true,
+            "latest_record_under_review": true
+          }
+        },
+        {
+          "sample": 4,
+          "creator_id": "appeal_eval_cf5030e8b3a2_4",
+          "reasoning": "I wrote sample 4 myself. Please review the classification.",
+          "passed": true,
+          "submission": {
+            "http_status": 200,
+            "response": {
+              "confidence": 0.1164,
+              "content_id": "e752709a-6b14-4d96-80d5-1737a4eac9ab",
+              "guess": "human",
+              "label": "We think this was most likely written by a person.",
+              "model_score": 0.1998,
+              "status": "classified",
+              "style_score": 0.2887
+            }
+          },
+          "history_before": [
+            {
+              "combined_score": 0.1164,
+              "content_id": "e752709a-6b14-4d96-80d5-1737a4eac9ab",
+              "creator_id": "appeal_eval_cf5030e8b3a2_4",
+              "guess": "human",
+              "label": "We think this was most likely written by a person.",
+              "model_score": 0.1998,
+              "status": "classified",
+              "style_score": 0.2887,
+              "timestamp": "2026-11-11T20:55:17+00:00"
+            }
+          ],
+          "appeal": {
+            "http_status": 200,
+            "response": {
+              "content_id": "e752709a-6b14-4d96-80d5-1737a4eac9ab",
+              "message": "Your appeal has been received. A person will review this decision.",
+              "status": "under_review"
+            }
+          },
+          "history_after": [
+            {
+              "combined_score": 0.1164,
+              "content_id": "e752709a-6b14-4d96-80d5-1737a4eac9ab",
+              "creator_id": "appeal_eval_cf5030e8b3a2_4",
+              "guess": "human",
+              "label": "We think this was most likely written by a person.",
+              "model_score": 0.1998,
+              "status": "classified",
+              "style_score": 0.2887,
+              "timestamp": "2026-11-11T20:55:17+00:00"
+            },
+            {
+              "content_id": "e752709a-6b14-4d96-80d5-1737a4eac9ab",
+              "creator_id": "appeal_eval_cf5030e8b3a2_4",
+              "event": "appeal",
+              "reasoning": "I wrote sample 4 myself. Please review the classification.",
+              "status": "under_review",
+              "timestamp": "2026-11-11T20:55:17+00:00"
+            }
+          ],
+          "checks": {
+            "appeal_returns_200": true,
+            "correct_content_id": true,
+            "response_status_under_review": true,
+            "nonempty_confirmation": true,
+            "original_decision_preserved": true,
+            "exact_reasoning_and_ids_logged": true,
+            "one_new_appeal_record": true,
+            "latest_record_under_review": true
+          }
+        },
+        {
+          "sample": 5,
+          "creator_id": "appeal_eval_cf5030e8b3a2_5",
+          "reasoning": "I wrote sample 5 myself. Please review the classification.",
+          "passed": true,
+          "submission": {
+            "http_status": 200,
+            "response": {
+              "confidence": 0.5064,
+              "content_id": "01607ec0-c135-4731-ab80-ace6ba0117a4",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.4644,
+              "status": "classified",
+              "style_score": 0.5441
+            }
+          },
+          "history_before": [
+            {
+              "combined_score": 0.5064,
+              "content_id": "01607ec0-c135-4731-ab80-ace6ba0117a4",
+              "creator_id": "appeal_eval_cf5030e8b3a2_5",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.4644,
+              "status": "classified",
+              "style_score": 0.5441,
+              "timestamp": "2026-11-11T20:55:17+00:00"
+            }
+          ],
+          "appeal": {
+            "http_status": 200,
+            "response": {
+              "content_id": "01607ec0-c135-4731-ab80-ace6ba0117a4",
+              "message": "Your appeal has been received. A person will review this decision.",
+              "status": "under_review"
+            }
+          },
+          "history_after": [
+            {
+              "combined_score": 0.5064,
+              "content_id": "01607ec0-c135-4731-ab80-ace6ba0117a4",
+              "creator_id": "appeal_eval_cf5030e8b3a2_5",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.4644,
+              "status": "classified",
+              "style_score": 0.5441,
+              "timestamp": "2026-11-11T20:55:17+00:00"
+            },
+            {
+              "content_id": "01607ec0-c135-4731-ab80-ace6ba0117a4",
+              "creator_id": "appeal_eval_cf5030e8b3a2_5",
+              "event": "appeal",
+              "reasoning": "I wrote sample 5 myself. Please review the classification.",
+              "status": "under_review",
+              "timestamp": "2026-11-11T20:55:17+00:00"
+            }
+          ],
+          "checks": {
+            "appeal_returns_200": true,
+            "correct_content_id": true,
+            "response_status_under_review": true,
+            "nonempty_confirmation": true,
+            "original_decision_preserved": true,
+            "exact_reasoning_and_ids_logged": true,
+            "one_new_appeal_record": true,
+            "latest_record_under_review": true
+          }
+        }
+      ]
+    },
+    {
+      "trial": 3,
+      "passed": 5,
+      "results": [
+        {
+          "sample": 1,
+          "creator_id": "appeal_eval_cf5030e8b3a2_1",
+          "reasoning": "I wrote sample 1 myself. Please review the classification.",
+          "passed": true,
+          "submission": {
+            "http_status": 200,
+            "response": {
+              "confidence": 0.3167,
+              "content_id": "8e5518fd-4060-4bb9-8041-b59ac2ca9b94",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.2209,
+              "status": "classified",
+              "style_score": 0.5347
+            }
+          },
+          "history_before": [
+            {
+              "combined_score": 0.3167,
+              "content_id": "8e5518fd-4060-4bb9-8041-b59ac2ca9b94",
+              "creator_id": "appeal_eval_cf5030e8b3a2_1",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.2209,
+              "status": "classified",
+              "style_score": 0.5347,
+              "timestamp": "2026-11-11T20:55:18+00:00"
+            }
+          ],
+          "appeal": {
+            "http_status": 200,
+            "response": {
+              "content_id": "8e5518fd-4060-4bb9-8041-b59ac2ca9b94",
+              "message": "Your appeal has been received. A person will review this decision.",
+              "status": "under_review"
+            }
+          },
+          "history_after": [
+            {
+              "combined_score": 0.3167,
+              "content_id": "8e5518fd-4060-4bb9-8041-b59ac2ca9b94",
+              "creator_id": "appeal_eval_cf5030e8b3a2_1",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.2209,
+              "status": "classified",
+              "style_score": 0.5347,
+              "timestamp": "2026-11-11T20:55:18+00:00"
+            },
+            {
+              "content_id": "8e5518fd-4060-4bb9-8041-b59ac2ca9b94",
+              "creator_id": "appeal_eval_cf5030e8b3a2_1",
+              "event": "appeal",
+              "reasoning": "I wrote sample 1 myself. Please review the classification.",
+              "status": "under_review",
+              "timestamp": "2026-11-11T20:55:18+00:00"
+            }
+          ],
+          "checks": {
+            "appeal_returns_200": true,
+            "correct_content_id": true,
+            "response_status_under_review": true,
+            "nonempty_confirmation": true,
+            "original_decision_preserved": true,
+            "exact_reasoning_and_ids_logged": true,
+            "one_new_appeal_record": true,
+            "latest_record_under_review": true
+          }
+        },
+        {
+          "sample": 2,
+          "creator_id": "appeal_eval_cf5030e8b3a2_2",
+          "reasoning": "I wrote sample 2 myself. Please review the classification.",
+          "passed": true,
+          "submission": {
+            "http_status": 200,
+            "response": {
+              "confidence": 0.5667,
+              "content_id": "f4ca0a5c-4826-4b74-a469-b323b712a301",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.619,
+              "status": "classified",
+              "style_score": 0.47
+            }
+          },
+          "history_before": [
+            {
+              "combined_score": 0.5667,
+              "content_id": "f4ca0a5c-4826-4b74-a469-b323b712a301",
+              "creator_id": "appeal_eval_cf5030e8b3a2_2",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.619,
+              "status": "classified",
+              "style_score": 0.47,
+              "timestamp": "2026-11-11T20:55:18+00:00"
+            }
+          ],
+          "appeal": {
+            "http_status": 200,
+            "response": {
+              "content_id": "f4ca0a5c-4826-4b74-a469-b323b712a301",
+              "message": "Your appeal has been received. A person will review this decision.",
+              "status": "under_review"
+            }
+          },
+          "history_after": [
+            {
+              "combined_score": 0.5667,
+              "content_id": "f4ca0a5c-4826-4b74-a469-b323b712a301",
+              "creator_id": "appeal_eval_cf5030e8b3a2_2",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.619,
+              "status": "classified",
+              "style_score": 0.47,
+              "timestamp": "2026-11-11T20:55:18+00:00"
+            },
+            {
+              "content_id": "f4ca0a5c-4826-4b74-a469-b323b712a301",
+              "creator_id": "appeal_eval_cf5030e8b3a2_2",
+              "event": "appeal",
+              "reasoning": "I wrote sample 2 myself. Please review the classification.",
+              "status": "under_review",
+              "timestamp": "2026-11-11T20:55:18+00:00"
+            }
+          ],
+          "checks": {
+            "appeal_returns_200": true,
+            "correct_content_id": true,
+            "response_status_under_review": true,
+            "nonempty_confirmation": true,
+            "original_decision_preserved": true,
+            "exact_reasoning_and_ids_logged": true,
+            "one_new_appeal_record": true,
+            "latest_record_under_review": true
+          }
+        },
+        {
+          "sample": 3,
+          "creator_id": "appeal_eval_cf5030e8b3a2_3",
+          "reasoning": "I wrote sample 3 myself. Please review the classification.",
+          "passed": true,
+          "submission": {
+            "http_status": 200,
+            "response": {
+              "confidence": 0.5977,
+              "content_id": "6caa3e18-f473-495c-925e-c28c4228023a",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.6303,
+              "status": "classified",
+              "style_score": 0.5
+            }
+          },
+          "history_before": [
+            {
+              "combined_score": 0.5977,
+              "content_id": "6caa3e18-f473-495c-925e-c28c4228023a",
+              "creator_id": "appeal_eval_cf5030e8b3a2_3",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.6303,
+              "status": "classified",
+              "style_score": 0.5,
+              "timestamp": "2026-11-11T20:55:18+00:00"
+            }
+          ],
+          "appeal": {
+            "http_status": 200,
+            "response": {
+              "content_id": "6caa3e18-f473-495c-925e-c28c4228023a",
+              "message": "Your appeal has been received. A person will review this decision.",
+              "status": "under_review"
+            }
+          },
+          "history_after": [
+            {
+              "combined_score": 0.5977,
+              "content_id": "6caa3e18-f473-495c-925e-c28c4228023a",
+              "creator_id": "appeal_eval_cf5030e8b3a2_3",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.6303,
+              "status": "classified",
+              "style_score": 0.5,
+              "timestamp": "2026-11-11T20:55:18+00:00"
+            },
+            {
+              "content_id": "6caa3e18-f473-495c-925e-c28c4228023a",
+              "creator_id": "appeal_eval_cf5030e8b3a2_3",
+              "event": "appeal",
+              "reasoning": "I wrote sample 3 myself. Please review the classification.",
+              "status": "under_review",
+              "timestamp": "2026-11-11T20:55:18+00:00"
+            }
+          ],
+          "checks": {
+            "appeal_returns_200": true,
+            "correct_content_id": true,
+            "response_status_under_review": true,
+            "nonempty_confirmation": true,
+            "original_decision_preserved": true,
+            "exact_reasoning_and_ids_logged": true,
+            "one_new_appeal_record": true,
+            "latest_record_under_review": true
+          }
+        },
+        {
+          "sample": 4,
+          "creator_id": "appeal_eval_cf5030e8b3a2_4",
+          "reasoning": "I wrote sample 4 myself. Please review the classification.",
+          "passed": true,
+          "submission": {
+            "http_status": 200,
+            "response": {
+              "confidence": 0.1164,
+              "content_id": "0efb62e9-66dc-42f1-8111-d6f5ccf1d480",
+              "guess": "human",
+              "label": "We think this was most likely written by a person.",
+              "model_score": 0.1998,
+              "status": "classified",
+              "style_score": 0.2887
+            }
+          },
+          "history_before": [
+            {
+              "combined_score": 0.1164,
+              "content_id": "0efb62e9-66dc-42f1-8111-d6f5ccf1d480",
+              "creator_id": "appeal_eval_cf5030e8b3a2_4",
+              "guess": "human",
+              "label": "We think this was most likely written by a person.",
+              "model_score": 0.1998,
+              "status": "classified",
+              "style_score": 0.2887,
+              "timestamp": "2026-11-11T20:55:19+00:00"
+            }
+          ],
+          "appeal": {
+            "http_status": 200,
+            "response": {
+              "content_id": "0efb62e9-66dc-42f1-8111-d6f5ccf1d480",
+              "message": "Your appeal has been received. A person will review this decision.",
+              "status": "under_review"
+            }
+          },
+          "history_after": [
+            {
+              "combined_score": 0.1164,
+              "content_id": "0efb62e9-66dc-42f1-8111-d6f5ccf1d480",
+              "creator_id": "appeal_eval_cf5030e8b3a2_4",
+              "guess": "human",
+              "label": "We think this was most likely written by a person.",
+              "model_score": 0.1998,
+              "status": "classified",
+              "style_score": 0.2887,
+              "timestamp": "2026-11-11T20:55:19+00:00"
+            },
+            {
+              "content_id": "0efb62e9-66dc-42f1-8111-d6f5ccf1d480",
+              "creator_id": "appeal_eval_cf5030e8b3a2_4",
+              "event": "appeal",
+              "reasoning": "I wrote sample 4 myself. Please review the classification.",
+              "status": "under_review",
+              "timestamp": "2026-11-11T20:55:19+00:00"
+            }
+          ],
+          "checks": {
+            "appeal_returns_200": true,
+            "correct_content_id": true,
+            "response_status_under_review": true,
+            "nonempty_confirmation": true,
+            "original_decision_preserved": true,
+            "exact_reasoning_and_ids_logged": true,
+            "one_new_appeal_record": true,
+            "latest_record_under_review": true
+          }
+        },
+        {
+          "sample": 5,
+          "creator_id": "appeal_eval_cf5030e8b3a2_5",
+          "reasoning": "I wrote sample 5 myself. Please review the classification.",
+          "passed": true,
+          "submission": {
+            "http_status": 200,
+            "response": {
+              "confidence": 0.5064,
+              "content_id": "fd26230e-2fae-4123-95bc-5d7aac5f0804",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.4644,
+              "status": "classified",
+              "style_score": 0.5441
+            }
+          },
+          "history_before": [
+            {
+              "combined_score": 0.5064,
+              "content_id": "fd26230e-2fae-4123-95bc-5d7aac5f0804",
+              "creator_id": "appeal_eval_cf5030e8b3a2_5",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.4644,
+              "status": "classified",
+              "style_score": 0.5441,
+              "timestamp": "2026-11-11T20:55:19+00:00"
+            }
+          ],
+          "appeal": {
+            "http_status": 200,
+            "response": {
+              "content_id": "fd26230e-2fae-4123-95bc-5d7aac5f0804",
+              "message": "Your appeal has been received. A person will review this decision.",
+              "status": "under_review"
+            }
+          },
+          "history_after": [
+            {
+              "combined_score": 0.5064,
+              "content_id": "fd26230e-2fae-4123-95bc-5d7aac5f0804",
+              "creator_id": "appeal_eval_cf5030e8b3a2_5",
+              "guess": "unsure",
+              "label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+              "model_score": 0.4644,
+              "status": "classified",
+              "style_score": 0.5441,
+              "timestamp": "2026-11-11T20:55:19+00:00"
+            },
+            {
+              "content_id": "fd26230e-2fae-4123-95bc-5d7aac5f0804",
+              "creator_id": "appeal_eval_cf5030e8b3a2_5",
+              "event": "appeal",
+              "reasoning": "I wrote sample 5 myself. Please review the classification.",
+              "status": "under_review",
+              "timestamp": "2026-11-11T20:55:19+00:00"
+            }
+          ],
+          "checks": {
+            "appeal_returns_200": true,
+            "correct_content_id": true,
+            "response_status_under_review": true,
+            "nonempty_confirmation": true,
+            "original_decision_preserved": true,
+            "exact_reasoning_and_ids_logged": true,
+            "one_new_appeal_record": true,
+            "latest_record_under_review": true
+          }
+        }
+      ]
+    }
+  ],
+  "verdict": "MET"
+}

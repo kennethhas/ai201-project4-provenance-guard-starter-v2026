@@ -1,0 +1,244 @@
+{
+  "criterion": 5,
+  "phase": "after",
+  "produced_by": "test_boundaries.py::main",
+  "tested_function": "scoring.py::score_to_label",
+  "target": "9/9 correct categories and exact labels in every trial",
+  "trials": [
+    {
+      "trial": 1,
+      "passed": 9,
+      "results": [
+        {
+          "score": 0.0,
+          "expected_guess": "human",
+          "expected_label": "We think this was most likely written by a person.",
+          "actual_guess": "human",
+          "actual_label": "We think this was most likely written by a person.",
+          "passed": true
+        },
+        {
+          "score": 0.14,
+          "expected_guess": "human",
+          "expected_label": "We think this was most likely written by a person.",
+          "actual_guess": "human",
+          "actual_label": "We think this was most likely written by a person.",
+          "passed": true
+        },
+        {
+          "score": 0.15,
+          "expected_guess": "human",
+          "expected_label": "We think this was most likely written by a person.",
+          "actual_guess": "human",
+          "actual_label": "We think this was most likely written by a person.",
+          "passed": true
+        },
+        {
+          "score": 0.16,
+          "expected_guess": "unsure",
+          "expected_label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+          "actual_guess": "unsure",
+          "actual_label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+          "passed": true
+        },
+        {
+          "score": 0.5,
+          "expected_guess": "unsure",
+          "expected_label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+          "actual_guess": "unsure",
+          "actual_label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+          "passed": true
+        },
+        {
+          "score": 0.84,
+          "expected_guess": "unsure",
+          "expected_label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+          "actual_guess": "unsure",
+          "actual_label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+          "passed": true
+        },
+        {
+          "score": 0.85,
+          "expected_guess": "ai",
+          "expected_label": "Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree",
+          "actual_guess": "ai",
+          "actual_label": "Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree",
+          "passed": true
+        },
+        {
+          "score": 0.86,
+          "expected_guess": "ai",
+          "expected_label": "Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree",
+          "actual_guess": "ai",
+          "actual_label": "Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree",
+          "passed": true
+        },
+        {
+          "score": 1.0,
+          "expected_guess": "ai",
+          "expected_label": "Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree",
+          "actual_guess": "ai",
+          "actual_label": "Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "trial": 2,
+      "passed": 9,
+      "results": [
+        {
+          "score": 0.0,
+          "expected_guess": "human",
+          "expected_label": "We think this was most likely written by a person.",
+          "actual_guess": "human",
+          "actual_label": "We think this was most likely written by a person.",
+          "passed": true
+        },
+        {
+          "score": 0.14,
+          "expected_guess": "human",
+          "expected_label": "We think this was most likely written by a person.",
+          "actual_guess": "human",
+          "actual_label": "We think this was most likely written by a person.",
+          "passed": true
+        },
+        {
+          "score": 0.15,
+          "expected_guess": "human",
+          "expected_label": "We think this was most likely written by a person.",
+          "actual_guess": "human",
+          "actual_label": "We think this was most likely written by a person.",
+          "passed": true
+        },
+        {
+          "score": 0.16,
+          "expected_guess": "unsure",
+          "expected_label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+          "actual_guess": "unsure",
+          "actual_label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+          "passed": true
+        },
+        {
+          "score": 0.5,
+          "expected_guess": "unsure",
+          "expected_label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+          "actual_guess": "unsure",
+          "actual_label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+          "passed": true
+        },
+        {
+          "score": 0.84,
+          "expected_guess": "unsure",
+          "expected_label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+          "actual_guess": "unsure",
+          "actual_label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+          "passed": true
+        },
+        {
+          "score": 0.85,
+          "expected_guess": "ai",
+          "expected_label": "Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree",
+          "actual_guess": "ai",
+          "actual_label": "Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree",
+          "passed": true
+        },
+        {
+          "score": 0.86,
+          "expected_guess": "ai",
+          "expected_label": "Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree",
+          "actual_guess": "ai",
+          "actual_label": "Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree",
+          "passed": true
+        },
+        {
+          "score": 1.0,
+          "expected_guess": "ai",
+          "expected_label": "Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree",
+          "actual_guess": "ai",
+          "actual_label": "Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "trial": 3,
+      "passed": 9,
+      "results": [
+        {
+          "score": 0.0,
+          "expected_guess": "human",
+          "expected_label": "We think this was most likely written by a person.",
+          "actual_guess": "human",
+          "actual_label": "We think this was most likely written by a person.",
+          "passed": true
+        },
+        {
+          "score": 0.14,
+          "expected_guess": "human",
+          "expected_label": "We think this was most likely written by a person.",
+          "actual_guess": "human",
+          "actual_label": "We think this was most likely written by a person.",
+          "passed": true
+        },
+        {
+          "score": 0.15,
+          "expected_guess": "human",
+          "expected_label": "We think this was most likely written by a person.",
+          "actual_guess": "human",
+          "actual_label": "We think this was most likely written by a person.",
+          "passed": true
+        },
+        {
+          "score": 0.16,
+          "expected_guess": "unsure",
+          "expected_label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+          "actual_guess": "unsure",
+          "actual_label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+          "passed": true
+        },
+        {
+          "score": 0.5,
+          "expected_guess": "unsure",
+          "expected_label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+          "actual_guess": "unsure",
+          "actual_label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+          "passed": true
+        },
+        {
+          "score": 0.84,
+          "expected_guess": "unsure",
+          "expected_label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+          "actual_guess": "unsure",
+          "actual_label": "We couldn\u2019t tell whether a person or AI wrote this. It could be either.",
+          "passed": true
+        },
+        {
+          "score": 0.85,
+          "expected_guess": "ai",
+          "expected_label": "Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree",
+          "actual_guess": "ai",
+          "actual_label": "Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree",
+          "passed": true
+        },
+        {
+          "score": 0.86,
+          "expected_guess": "ai",
+          "expected_label": "Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree",
+          "actual_guess": "ai",
+          "actual_label": "Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree",
+          "passed": true
+        },
+        {
+          "score": 1.0,
+          "expected_guess": "ai",
+          "expected_label": "Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree",
+          "actual_guess": "ai",
+          "actual_label": "Our checks suggest this writing may be AI-generated, but we could be wrong. You can appeal if you disagree",
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "verdict": "MET"
+}

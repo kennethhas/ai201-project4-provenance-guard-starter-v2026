@@ -161,7 +161,7 @@ def main():
 
     report = {
         "criterion": 3,
-        "phase": "before",
+        "phase": "after",
         "produced_by": "test_appeals.py::main",
         "target": "All five appeals pass every check in every trial",
         "status_check": (
@@ -178,7 +178,7 @@ def main():
     stamp = datetime.now().strftime("%Y-%m-%d_%H%M%S")
     folder = Path(__file__).resolve().parent / "results"
     folder.mkdir(exist_ok=True)
-    path = folder / f"appeals_{stamp}_before.json"
+    path = folder / f"appeals_{stamp}_after.json"
     path.write_text(
         json.dumps(report, indent=2, ensure_ascii=True),
         encoding="utf-8",

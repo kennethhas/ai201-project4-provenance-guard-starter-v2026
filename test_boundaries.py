@@ -71,7 +71,7 @@ def main():
 
     report = {
         "criterion": 5,
-        "phase": "before",
+        "phase": "after",
         "produced_by": "test_boundaries.py::main",
         "tested_function": "scoring.py::score_to_label",
         "target": "9/9 correct categories and exact labels in every trial",
@@ -85,7 +85,7 @@ def main():
     stamp = datetime.now().strftime("%Y-%m-%d_%H%M%S")
     folder = Path(__file__).resolve().parent / "results"
     folder.mkdir(exist_ok=True)
-    path = folder / f"boundaries_{stamp}_before.json"
+    path = folder / f"boundaries_{stamp}_after.json"
 
     path.write_text(
         json.dumps(report, indent=2, ensure_ascii=True),
