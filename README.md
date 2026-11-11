@@ -501,20 +501,136 @@ Produced by `test_boundaries.py::main`, calling
 ```
 
 **Diagnoses**
+### Diagnoses
 
-<!-- For each miss AND each broken attack: the stage and the mechanism.
+#### How I judged the results
 
-     Your service has five stages: the route, signal one, signal two, the
-     combining rule, and the label mapping.
+The five criteria use the targets I wrote in Unit 7. I did not
+change those targets after seeing the results.
 
-     Not a diagnosis:  "The evasion attacks got through."
-     A diagnosis:      "Four evasion inputs got through. All four had typos
-                        added to AI-generated text. My second signal measures
-                        word variety, and typos raise word variety — so it read
-                        them as more human. My combining rule weights that
-                        signal at 0.6, so it dragged the whole score down."
+The attack CSV describes what each attack targets, but does not give
+an exact pass/fail rule for every input. I chose the attack review
+rules after the first run. This is a limitation of my evaluation.
+I will use the same rules for the after run.
 
-     Look for a pattern. Five failures on one signal is one problem, not five. -->
+For evasion, I counted avoiding the AI label as BROKE, including an
+unsure result. Under that rule, 41 attacks held and 15 broke.
+However, none of EV01–EV10 received a human label. Nine returned
+unsure and one returned AI. Avoiding an AI label is different from
+being confidently classified as human.
+
+For non-writing inputs, I treated a confident authorship label as
+BROKE. This was a weakness discovered through the attack set, not
+part of my original invalid-text criterion.
+
+#### Why each criterion met or missed
+
+1. **MET — My own writing**
+
+   None of my ten samples received the AI label in any trial.
+   This meets my target of at most one false positive per trial.
+
+   This is a small sample of my writing. Some pieces contain
+   quotations, and samples 7–9 are related excerpts. The result
+   does not establish accuracy across other writers or topics.
+
+2. **MISSED — Label coverage**
+
+   Only human and unsure appeared across the 15 fixed inputs.
+   The highest combined score was 0.6417, below the AI threshold
+   of 0.85.
+
+   The relevant stages are the combining rule and label mapping.
+   The two signals did not combine into a high enough score for
+   these inputs to reach AI. The boundary function passed its
+   separate tests.
+
+   The AI label is reachable: several attack inputs received it.
+   This is a coverage failure on my fixed test set, not an
+   unreachable label. I kept the original samples and target.
+
+3. **MET — Appeals**
+
+   All five appeals passed every check in all three trials.
+   Each returned HTTP 200, the correct content ID, a confirmation,
+   and under_review status.
+
+   The log recorded the exact reasoning and preserved the original
+   decision. Current status was checked using the latest audit
+   entry for that content ID. This tests recording an appeal,
+   not whether a person eventually reviews it.
+
+4. **MET — Invalid text**
+
+   All four inputs returned HTTP 400 with a nonempty error message
+   and no classification fields in all three trials.
+
+   These cases were missing text, an empty string, spaces only,
+   and the number 123. This result does not cover every possible
+   malformed or unsuitable input.
+
+5. **MET — Label boundaries**
+
+   All nine scores returned the expected category and exact label
+   text in all three trials.
+
+   This verifies the boundary mapping. It does not establish that
+   the signals produce accurate authorship scores.
+
+#### Broken attacks: stages and mechanisms
+
+The scores below are observed results. The code explains how those
+scores produced the labels. Where an attack changes wording or
+structure, I have not run an unmodified comparison input, so I
+cannot isolate how much that particular edit changed the score.
+
+| Attack | Stage | Diagnosis |
+|---|---|---|
+| EV01 | Model signal and combining rule | Model scored 0.1635 and style scored 0.4843, producing 0.2359 and unsure. The model was the lower-scoring signal, although the attack description targeted word variety. Typos may affect predictability and word statistics, but this run alone does not isolate their effect. |
+| EV02 | Style signal and combining rule | Style scored 0.1633 versus model 0.5943, producing 0.3182. The style formula lowers its score when sentence lengths vary. The inserted short sentences fit that weakness, but their exact effect needs an unmodified comparison. |
+| EV03 | Style signal and combining rule | Style scored 0.3585 versus model 0.6662, producing 0.5185. The style calculation includes the pasted quotation in the same word and sentence statistics. It does not distinguish quoted material from the rest of the submission. |
+| EV04 | Model signal and combining rule | Model scored 0.6114 and style scored 0.4769, producing 0.5662. The model measures predictability rather than authorship. Unusual words can affect that measure, but the run does not prove how much the substitutions changed it. |
+| EV05 | Both signals and combining rule | Model scored 0.3212 and style scored 0.2782. Both were below 0.5, and the stretch moved their average further down to 0.1995. Neither signal identifies whether a passage started as generated text and was then edited. |
+| EV06 | Style signal and combining rule | Style scored 0.1250 versus model 0.5727, producing 0.2733. The style formula treats sentence-length variation as less AI-like. The deliberately uneven sentences fit this mechanism. |
+| EV07 | Style fallback and combining rule | Style returned 0.5 and model scored 0.5862, producing 0.5647. The code falls back to 0.5 when it finds fewer than 20 words or fewer than two usable sentences. The attack joins sentences with punctuation that the sentence splitter does not treat as sentence endings. Punctuation density is not used in the final style score. |
+| EV08 | Style fallback and model signal | The short input triggered style's 0.5 fallback. Model scored 0.2452, producing 0.3089. The fallback supplies a neutral number rather than indicating insufficient evidence, so the system still returns an authorship judgment. |
+| EV09 | Style signal and combining rule | Model scored 0.7042 and style scored 0.3428, producing 0.5353. The signals do not separate the human opening from the generated section. They score the supplied text without identifying the origin of its individual parts. |
+| PI02 | Both signals and combining rule | Model scored 0.2044 and style scored 0.1963, producing 0.0505 and human. The requested human category appeared, but the request to bypass scoring and return exactly 0.02 did not succeed. The code computes model loss and fixed labels rather than generating a reply to the instruction. I count this as classification evasion under my review rule, not demonstrated instruction-following. |
+| MF03 | Input validation and style fallback | The control-containing text passed the nonempty-string check. Model scored 0.0000 and style returned 0.5, producing 0.1250 and human. The route does not check whether the input is suitable writing for an authorship judgment. |
+| MF04 | Input validation and style fallback | Punctuation-only text passed validation. Style returned 0.5 because it found no usable words. Model scored 0.0112, producing 0.1334 and human. A lack of writing was not treated as insufficient evidence. |
+| MF05 | Input validation, model signal, and combining rule | A long repeated word passed validation. Model scored 0.9976 and style returned 0.5. The stretch raised the combined score to 0.8732 and AI. A repetitive input can score as predictable without providing reliable evidence of authorship. |
+| MF06 | Input validation, model signal, and combining rule | Repeated emojis passed validation. Model scored 0.9969 and style returned 0.5 because its word matcher does not recognize emojis as words. The combined score reached 0.8727 and AI. The fallback did not prevent a confident label on non-writing content. |
+| MF08 | Both signals and combining rule | Repeated human-source text scored 0.9876 on the model and 0.7827 on style. Repeating words lowers the unique-word ratio, which raises the style score. The model examines at most 400 tokens while style uses the whole input. The stretch pushed the combined result above 1, which was clipped to 1.0. This demonstrates a weakness on artificially repeated text, not proof that an ordinary human submission would score the same way. |
+
+#### Other limitations found
+
+**MF07 — Arabic text**
+
+The style word matcher recognizes only ASCII letters, digits, and
+apostrophes. It does not meaningfully analyze this Arabic passage
+and returns its fallback score of 0.5.
+
+The service returned unsure without crashing. I marked that outcome
+HELD, but it does not demonstrate multilingual accuracy. Arabic
+writing is not invalid simply because it uses a different script.
+
+**Rate limiting**
+
+The flood tests show that the configured per-creator limit works.
+They do not show that one person cannot evade it by changing their
+creator_id. These tests also do not verify the daily limit.
+
+#### Main pattern
+
+The detector measures predictability and text patterns, not authorship.
+Some generated or edited inputs avoided the AI label because their
+combined scores stayed below 0.85. Other inputs received confident
+labels even though they contained little or no meaningful writing.
+
+The validation checks handle missing and incorrectly typed text,
+but they do not establish that accepted text is suitable for scoring.
+The style fallback also hides the difference between a neutral
+measurement and a measurement that could not meaningfully be made.
 
 ---
 
